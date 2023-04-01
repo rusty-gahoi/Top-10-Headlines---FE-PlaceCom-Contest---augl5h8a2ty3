@@ -4,9 +4,9 @@ import '../styles/App.css';
 const App = () => {
   const [category, setCategory] = useState("general");
   const [newsData, setNewsData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  const API_KEY ="https://gnews.io/";
+  const API_KEY ="71ea529d7a81134563243812d422e800";
 
   const changeFunction = (e) => {
     setCategory(e.target.value);
