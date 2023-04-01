@@ -12,11 +12,16 @@ const App = () => {
     setCategory(e.target.value);
   }
   useEffect(() => {
-    setLoading(true);
-    fetch(`https://gnews.io/api/v4/top-headlines?category=${category}&lang=en&country=us&max=10&apikey=${API_KEY}`).then(res=>res.json()).then((res) => {
-      setNewsData(res.articles);
-      console.log(res);
-    }).then(() => setLoading(false));
+    async function data() {
+
+      setLoading(true);
+      let url = `https://gnews.io/api/v4/top-headlines?category=${category}&lang=en&country=us&max=10&apikey=${API_KEY}`;
+      let res = await fetch(url);
+      let resData = await res.json();
+      setLoading(false);
+      setNewsData(resData.articles);
+    }
+    data();
   },[category])
 
   return (
@@ -31,15 +36,13 @@ const App = () => {
         <option value="entertainment">Entertainment</option>
         <option value="science">Science</option>
       </select>
-      {loading &&
-      <p className='loader'>Loading...</p>}
-      {!loading && 
-      <ol>{newsData.map((e,i)=> {
+      {loading && <p className='loader'>Loading...</p>}
+      
+      {!loading && <ol>
+      {newsData.map((e,i)=> {
         return (
-          
-        
         <li key={i}>
-          <img className='news-img' src={e.image} alt=""/>
+          <img className='news-img' src={e.image} alt={e.title}/>
           <section className='new-title-content-author'>
             <h3 className='news-title'>{e.title}</h3>
             <section className='new-content-author'>
